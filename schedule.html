@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Интерактивное расписание учителя</title>
+  <title>Інтерактивний розклад учителя</title>
   <style>
     :root {
       --bg-top: #f7f3e8;
@@ -122,6 +122,10 @@
       gap: 10px;
     }
 
+    .toolbar-actions .btn {
+      flex: 1 1 180px;
+    }
+
     button {
       font: inherit;
     }
@@ -194,6 +198,10 @@
       text-align: center;
     }
 
+    .mobile-day {
+      display: none;
+    }
+
     tbody th,
     tbody td {
       border: 2px solid #4f4a43;
@@ -255,8 +263,26 @@
     .subject {
       display: block;
       font-weight: 800;
-      font-size: 16px;
-      margin-bottom: 6px;
+      font-size: 14px;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .class-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      max-width: 100%;
+      padding: 6px 10px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #2f6fb1 0%, #215587 100%);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      box-shadow: 0 10px 18px rgba(47, 111, 177, 0.24);
     }
 
     .meta,
@@ -270,6 +296,21 @@
     .students-preview {
       color: var(--success);
       font-weight: 700;
+    }
+
+    .lesson-format {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #e8f0fb;
+      color: var(--accent-strong);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
 
     .card-actions {
@@ -395,6 +436,48 @@
       border: 1px solid rgba(47, 111, 177, 0.08);
     }
 
+    .student-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .student-name {
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    .student-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .student-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .student-check input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .student-group {
+      min-width: 180px;
+      border: 1px solid rgba(201, 191, 171, 0.95);
+      border-radius: 12px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
     .form-grid {
       display: grid;
       gap: 12px;
@@ -450,6 +533,146 @@
       display: none;
     }
 
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+
+    @media print {
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 34%),
+          linear-gradient(180deg, var(--bg-top) 0%, #f6f0df 30%, var(--bg-bottom) 100%);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .modal-overlay,
+      .toolbar,
+      .card-actions,
+      .empty-card {
+        display: none !important;
+      }
+
+      .hero {
+        display: block;
+        margin-bottom: 10mm;
+      }
+
+      .title-card {
+        background: rgba(255, 250, 242, 0.8);
+        border: 1px solid rgba(201, 191, 171, 0.9);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        break-inside: avoid;
+      }
+
+      .board {
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(201, 191, 171, 0.95);
+        border-radius: 28px;
+        overflow: visible;
+        background: var(--paper);
+        break-inside: avoid;
+      }
+
+      .board-scroll {
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+        background: var(--paper-strong);
+      }
+
+      thead th,
+      tbody th,
+      tbody td {
+        border: 2px solid #4f4a43;
+        background: rgba(255, 252, 245, 0.92);
+      }
+
+      thead th {
+        padding: 10px 6px;
+        font-size: 14px;
+        background: linear-gradient(180deg, #f0eadb 0%, #ece4d1 100%);
+      }
+
+      .desktop-day {
+        display: inline !important;
+      }
+
+      .mobile-day {
+        display: none !important;
+      }
+
+      .num-col {
+        width: 34px;
+        padding: 8px 4px;
+        font-size: 13px;
+      }
+
+      .time-col {
+        display: table-cell !important;
+        width: 92px;
+        padding: 8px 5px;
+        font-size: 11px;
+      }
+
+      .lesson-cell {
+        padding: 3px;
+      }
+
+      .lesson-card {
+        min-height: 64px;
+        padding: 5px;
+        border: 1px solid rgba(47, 111, 177, 0.15);
+        border-radius: 10px;
+        box-shadow: 0 6px 16px rgba(31, 49, 78, 0.10);
+        background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+        gap: 4px;
+      }
+
+      .lesson-main {
+        cursor: default;
+        pointer-events: none;
+      }
+
+      .subject {
+        font-size: 11px;
+        margin-bottom: 2px;
+      }
+
+      .class-badge {
+        padding: 3px 6px;
+        border-radius: 6px;
+        font-size: 10px;
+        box-shadow: none;
+      }
+
+      .meta,
+      .students-preview {
+        font-size: 9px;
+        line-height: 1.15;
+      }
+
+      .lesson-format {
+        padding: 2px 4px;
+        font-size: 8px;
+        background: #e8f0fb;
+        color: var(--accent-strong);
+      }
+    }
+
     @media (max-width: 920px) {
       .hero {
         grid-template-columns: 1fr;
@@ -479,6 +702,102 @@
       .modal-title {
         font-size: 21px;
       }
+
+      .board-scroll {
+        overflow-x: visible;
+      }
+
+      table {
+        min-width: 100%;
+      }
+
+      thead th {
+        padding: 8px 3px;
+        font-size: 11px;
+        line-height: 1.1;
+      }
+
+      thead th:nth-child(2),
+      .time-col {
+        display: none;
+      }
+
+      .desktop-day {
+        display: none;
+      }
+
+      .mobile-day {
+        display: inline;
+      }
+
+      .num-col {
+        width: 34px;
+        padding: 8px 2px;
+        font-size: 14px;
+      }
+
+      .lesson-cell {
+        padding: 3px;
+      }
+
+      .lesson-card,
+      .empty-card {
+        min-height: 68px;
+        padding: 6px;
+        border-radius: 10px;
+      }
+
+      .lesson-card {
+        gap: 5px;
+      }
+
+      .subject {
+        font-size: 10px;
+        margin-bottom: 3px;
+        line-height: 1.15;
+      }
+
+      .class-badge {
+        padding: 4px 6px;
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      .meta,
+      .students-preview {
+        font-size: 8px;
+        line-height: 1.15;
+      }
+
+      .lesson-format {
+        padding: 3px 5px;
+        font-size: 7px;
+        gap: 4px;
+      }
+
+      .meta:last-of-type {
+        display: none;
+      }
+
+      .card-actions {
+        gap: 4px;
+      }
+
+      .tiny-view {
+        display: none;
+      }
+
+      .tiny-btn {
+        width: 100%;
+        padding: 5px 4px;
+        border-radius: 8px;
+        font-size: 9px;
+      }
+
+      .empty-card {
+        font-size: 9px;
+        line-height: 1.15;
+      }
     }
   </style>
 </head>
@@ -486,22 +805,23 @@
   <div class="page">
     <section class="hero">
       <div class="title-card">
-        <span class="eyebrow">Интерактивный журнал</span>
-        <h1>Расписание занятий учителя на 2025/2026 учебный год</h1>
-        <p class="subtitle">
-          Таблица повторяет логику бумажного расписания: строки это уроки 1-8, столбцы это Пн-Пт. Нажмите на карточку урока, чтобы увидеть список учеников, или на пустую ячейку, чтобы быстро добавить занятие.
-        </p>
+        <span class="eyebrow">Інтерактивний журнал</span>
+        <h1>Розклад занять учителя на 2025/2026 навчальний рік</h1>
       </div>
 
       <aside class="toolbar">
         <p>
-          Данные хранятся в <code>localStorage</code>. После обновления страницы изменения останутся. Если нужно вернуть стартовый набор, используйте сброс.
+          Дані зберігаються в <code>localStorage</code>. Після оновлення сторінки зміни залишаться. Якщо потрібно повернути стартовий набір, використайте скидання.
         </p>
         <div class="toolbar-actions">
-          <button class="btn btn-primary" id="addLessonBtn">Добавить урок</button>
-          <button class="btn btn-danger" id="resetBtn">Сбросить данные</button>
+          <button class="btn btn-primary" id="addLessonBtn">Додати урок</button>
+          <button class="btn btn-secondary" id="exportBtn">Експорт JSON</button>
+          <button class="btn btn-secondary" id="importBtn">Імпорт JSON</button>
+          <button class="btn btn-secondary" id="printBtn">Друк A4</button>
+          <button class="btn btn-danger" id="resetBtn">Скинути дані</button>
         </div>
-        <div class="status" id="statusText">Источник данных: стартовый JSON в файле.</div>
+        <input class="hidden" id="importFileInput" type="file" accept="application/json,.json" />
+        <div class="status" id="statusText">Джерело даних: стартовий JSON у файлі.</div>
       </aside>
     </section>
 
@@ -511,12 +831,12 @@
           <thead>
             <tr>
               <th>№</th>
-              <th>Время</th>
-              <th>Понедельник</th>
-              <th>Вторник</th>
-              <th>Среда</th>
-              <th>Четверг</th>
-              <th>Пятница</th>
+              <th>Час</th>
+              <th><span class="desktop-day">Понеділок</span><span class="mobile-day">Пн</span></th>
+              <th><span class="desktop-day">Вівторок</span><span class="mobile-day">Вт</span></th>
+              <th><span class="desktop-day">Середа</span><span class="mobile-day">Ср</span></th>
+              <th><span class="desktop-day">Четвер</span><span class="mobile-day">Чт</span></th>
+              <th><span class="desktop-day">П’ятниця</span><span class="mobile-day">Пт</span></th>
             </tr>
           </thead>
           <tbody id="scheduleBody"></tbody>
@@ -536,9 +856,9 @@
       </div>
       <ul class="students-list" id="studentsList"></ul>
       <div class="modal-actions">
-        <button class="btn btn-secondary" type="button" id="editFromViewBtn">Редактировать</button>
+        <button class="btn btn-secondary" type="button" id="editFromViewBtn">Редагувати</button>
         <div class="right-actions">
-          <button class="btn btn-primary" type="button" data-close="view">Закрыть</button>
+          <button class="btn btn-primary" type="button" data-close="view">Закрити</button>
         </div>
       </div>
     </div>
@@ -548,8 +868,8 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
       <div class="modal-head">
         <div>
-          <h2 class="modal-title" id="editTitle">Редактирование урока</h2>
-          <p class="modal-subtitle">Заполните поля ниже. Имена учеников вводятся по одному в строке или через запятую.</p>
+          <h2 class="modal-title" id="editTitle">Редагування уроку</h2>
+          <p class="modal-subtitle">Заповніть поля нижче. Імена учнів вводяться по одному в рядку або через кому.</p>
         </div>
         <button class="icon-btn" type="button" data-close="edit">&times;</button>
       </div>
@@ -561,7 +881,7 @@
             <select id="lessonDay" required></select>
           </div>
           <div class="field">
-            <label for="lessonHour">Номер урока</label>
+            <label for="lessonHour">Номер уроку</label>
             <select id="lessonHour" required></select>
           </div>
         </div>
@@ -569,24 +889,24 @@
         <div class="form-grid two">
           <div class="field">
             <label for="lessonSubject">Предмет</label>
-            <input id="lessonSubject" type="text" placeholder="Например, Математика" required />
+            <input id="lessonSubject" type="text" placeholder="Наприклад, Математика" required />
           </div>
           <div class="field">
-            <label for="lessonClass">Класс</label>
-            <input id="lessonClass" type="text" placeholder="Например, 7-А" required />
+            <label for="lessonClass">Клас</label>
+            <input id="lessonClass" type="text" placeholder="Наприклад, 7-А" required />
           </div>
         </div>
 
         <div class="field">
-          <label for="lessonStudents">Ученики</label>
-          <textarea id="lessonStudents" placeholder="Иван Иванов&#10;Анна Петрова&#10;Максим Коваль"></textarea>
+          <label for="lessonStudents">Учні</label>
+          <textarea id="lessonStudents" placeholder="Іван Іванов&#10;Анна Петрова&#10;Максим Коваль"></textarea>
         </div>
 
         <div class="modal-actions">
-          <button class="btn btn-danger hidden" type="button" id="deleteLessonBtn">Удалить урок</button>
+          <button class="btn btn-danger hidden" type="button" id="deleteLessonBtn">Видалити урок</button>
           <div class="right-actions">
-            <button class="btn btn-secondary" type="button" data-close="edit">Отмена</button>
-            <button class="btn btn-primary" type="submit">Сохранить</button>
+            <button class="btn btn-secondary" type="button" data-close="edit">Скасувати</button>
+            <button class="btn btn-primary" type="submit">Зберегти</button>
           </div>
         </div>
       </form>
@@ -596,11 +916,11 @@
   <script>
     const STORAGE_KEY = "teacherScheduleInteractive";
     const days = [
-      { short: "Пн", full: "Понедельник" },
-      { short: "Вт", full: "Вторник" },
-      { short: "Ср", full: "Среда" },
-      { short: "Чт", full: "Четверг" },
-      { short: "Пт", full: "Пятница" }
+      { short: "Пн", full: "Понеділок" },
+      { short: "Вт", full: "Вівторок" },
+      { short: "Ср", full: "Середа" },
+      { short: "Чт", full: "Четвер" },
+      { short: "Пт", full: "П’ятниця" }
     ];
 
     const lessonTimes = {
@@ -614,28 +934,163 @@
       8: "14:00 - 14:45"
     };
 
+    const healthGroups = ["Основна", "Підготовча", "Спеціальна"];
+
+    const students7A = [
+      "Баранов Іван",
+      "Васілевський Олександр",
+      "Єрмакова Софія",
+      "Єфіменко Альона",
+      "Катунін Арсеній",
+      "Лавришин Володимир",
+      "Новікова Яна",
+      "Притуляк Михайло",
+      "Соловйов Георгій",
+      "Стельмах Ксенія",
+      "Стрецкул Діана",
+      "Тарасенко Генріх",
+      "Тєравська Ганна",
+      "Форостовець Кіра",
+      "Чебан Надія",
+      "Чернобай Олександра",
+      "Чурсінова Дар'я"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
+    const students7B = [
+      "Балановська Дар'я",
+      "Белан Олександр",
+      "Веледницький Єгор",
+      "Дімова Тетяна",
+      "Железняк Оксана",
+      "Іваніна Олеся",
+      "Ігнатьєв Георгій",
+      "Керімов Тамірлан",
+      "Коваль Максим",
+      "Мальченко Софія",
+      "Смірнова Софія",
+      "Сумко Олександр",
+      "Ткаченко Олександр",
+      "Третьякова Ксенія",
+      "Чорней Ігор",
+      "Шевченко Светослав",
+      "Щербина Софія"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
+    const students8A = [
+      "Беженар Дмитро",
+      "Білозерська Мія",
+      "Гіржев Ален",
+      "Голоперов Іван",
+      "Донченко Павло",
+      "Донченко Петро",
+      "Доробець Анастасія",
+      "Жалобнюк Єліза",
+      "Захарчук Іван",
+      "Кабанцева Єлизавета",
+      "Коваленко Ілля",
+      "Кушнірова Софія",
+      "Лисенко Єва",
+      "Оскола Мирослав",
+      "Сивоплясов Леонід",
+      "Титаренко Єва",
+      "Чернишева Олександра",
+      "Чорна Соломія"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
+    const students9O = [
+      "Беляєва Альона",
+      "Бровко Ксенія",
+      "Гроза Софія",
+      "Губаренко Ліна",
+      "Дімов Єгор",
+      "Дорофтей Володимир",
+      "Єфименко Анастасія",
+      "Жуков Павло",
+      "Жукова Віра",
+      "Іжаковський Дмитро",
+      "Карабаджак Євгеній",
+      "Керімова Ніколь",
+      "Лановий Євгеній",
+      "Маначина Дар'я",
+      "Мойсеєнок Василина",
+      "Прядко Софія",
+      "Пучков Єгор",
+      "Русескул Катерина",
+      "Сандуленко Анастасія",
+      "Стоянова Софія",
+      "Сумко Костянтин",
+      "Татаринський Роман",
+      "Шевченко Марія"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
+    const students10D = [
+      "Білоконь Анна-Марія",
+      "Ганенко Владислав",
+      "Дячик Денис",
+      "Кирилюк Дар'я",
+      "Кравченко Анастасія",
+      "Лебедєв Артемій",
+      "Мутняк Микола",
+      "Орищенко Анастасія",
+      "Позняк Євген",
+      "Шиянов Андрій"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
+    const students10O = [
+      "Берлад Роман",
+      "Боярська Валерія",
+      "Бурма Макар",
+      "Виноградова Дар'я",
+      "Ганга Максим",
+      "Зелений Ернест",
+      "Король Анна",
+      "Кулік Ольга",
+      "Млінцов Ігор",
+      "Погрібна Анастасія",
+      "Сайко Іван",
+      "Слапігін Михайло",
+      "Фалендиш Марія",
+      "Цап Марія",
+      "Черніков Єлисей",
+      "Швець Олександра",
+      "Яловенко Святослав"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
+    const students11D = [
+      "Белоусова Вероніка",
+      "Гаврилюк Іван",
+      "Гончар Ярослав",
+      "Жданович Андрій",
+      "Мирославська Ірина",
+      "Садовська Діана",
+      "Серватчук Олег",
+      "Ташева Анастасія",
+      "Ченков Євгеній",
+      "Якушева Мирослава"
+    ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
+
     const defaultSchedule = [
-      { day: "Пт", hour: 2, subject: "Физ. культ.", className: "7-А", students: ["Иван", "Анна", "Максим", "София", "Олег"] },
-      { day: "Пт", hour: 3, subject: "Физ. культ.", className: "7-Б", students: ["Мария", "Артем", "Денис", "Ева"] },
-      { day: "Вт", hour: 4, subject: "Физ. культ.", className: "10-О", students: ["Никита", "Полина", "Алина", "Богдан"] },
-      { day: "Чт", hour: 4, subject: "Физ. культ.", className: "7-А", students: ["Иван", "Анна", "Максим", "София", "Олег"] },
-      { day: "Пт", hour: 4, subject: "Физ. культ.", className: "9-О", students: ["Михаил", "Дарья", "Алексей", "Вероника"] },
-      { day: "Вт", hour: 5, subject: "Физ. культ.", className: "8-А", students: ["Тимур", "Елизавета", "Андрей", "Кира"] },
-      { day: "Ср", hour: 5, subject: "Физ. культ.", className: "10-Д", students: ["Влад", "Алина", "Илья", "Екатерина"] },
-      { day: "Чт", hour: 5, subject: "Физ. культ.", className: "7-Б", students: ["Мария", "Артем", "Денис", "Ева"] },
-      { day: "Пт", hour: 5, subject: "Физ. культ.", className: "8-А", students: ["Тимур", "Елизавета", "Андрей", "Кира"] },
-      { day: "Вт", hour: 6, subject: "Физ. культ.", className: "10-Д", students: ["Влад", "Алина", "Илья", "Екатерина"] },
-      { day: "Ср", hour: 6, subject: "Физ. культ.", className: "11-Д", students: ["Роман", "Марина", "Степан", "Юлия"] },
-      { day: "Чт", hour: 6, subject: "Физ. культ.", className: "8-А", students: ["Тимур", "Елизавета", "Андрей", "Кира"] },
-      { day: "Пт", hour: 6, subject: "Физ. культ.", className: "11-Д", students: ["Роман", "Марина", "Степан", "Юлия"] },
-      { day: "Вт", hour: 7, subject: "Физ. культ.", className: "11-Д", students: ["Роман", "Марина", "Степан", "Юлия"] },
-      { day: "Ср", hour: 7, subject: "Физ. культ.", className: "9-О", students: ["Михаил", "Дарья", "Алексей", "Вероника"] },
-      { day: "Чт", hour: 7, subject: "Физ. культ.", className: "9-О", students: ["Михаил", "Дарья", "Алексей", "Вероника"] },
-      { day: "Пт", hour: 7, subject: "Физ. культ.", className: "10-О", students: ["Никита", "Полина", "Алина", "Богдан"] },
-      { day: "Вт", hour: 8, subject: "Физ. культ.", className: "7-А", students: ["Иван", "Анна", "Максим", "София", "Олег"] },
-      { day: "Ср", hour: 8, subject: "Физ. культ.", className: "7-Б", students: ["Мария", "Артем", "Денис", "Ева"] },
-      { day: "Чт", hour: 8, subject: "Физ. культ.", className: "10-О", students: ["Никита", "Полина", "Алина", "Богдан"] },
-      { day: "Пт", hour: 8, subject: "Физ. культ.", className: "10-Д", students: ["Влад", "Алина", "Илья", "Екатерина"] }
+      { day: "Пт", hour: 2, subject: "Фіз. культ.", className: "7-А", students: students7A },
+      { day: "Пт", hour: 3, subject: "Фіз. культ.", className: "7-Б", students: students7B },
+      { day: "Вт", hour: 4, subject: "Фіз. культ.", className: "10-О", students: students10O },
+      { day: "Чт", hour: 4, subject: "Фіз. культ.", className: "7-А", students: students7A },
+      { day: "Пт", hour: 4, subject: "Фіз. культ.", className: "9-О", students: students9O },
+      { day: "Вт", hour: 5, subject: "Фіз. культ.", className: "8-А", students: students8A },
+      { day: "Ср", hour: 5, subject: "Фіз. культ.", className: "10-Д", students: students10D },
+      { day: "Чт", hour: 5, subject: "Фіз. культ.", className: "7-Б", students: students7B },
+      { day: "Пт", hour: 5, subject: "Фіз. культ.", className: "8-А", students: students8A },
+      { day: "Вт", hour: 6, subject: "Фіз. культ.", className: "10-Д", students: students10D },
+      { day: "Ср", hour: 6, subject: "Фіз. культ.", className: "11-Д", students: students11D },
+      { day: "Чт", hour: 6, subject: "Фіз. культ.", className: "8-А", students: students8A },
+      { day: "Пт", hour: 6, subject: "Фіз. культ.", className: "11-Д", students: students11D },
+      { day: "Вт", hour: 7, subject: "Фіз. культ.", className: "11-Д", students: students11D },
+      { day: "Ср", hour: 7, subject: "Фіз. культ.", className: "9-О", students: students9O },
+      { day: "Чт", hour: 7, subject: "Фіз. культ.", className: "9-О", students: students9O },
+      { day: "Пт", hour: 7, subject: "Фіз. культ.", className: "10-О", students: students10O },
+      { day: "Вт", hour: 8, subject: "Фіз. культ.", className: "7-А", students: students7A },
+      { day: "Ср", hour: 8, subject: "Фіз. культ.", className: "7-Б", students: students7B },
+      { day: "Чт", hour: 8, subject: "Фіз. культ.", className: "10-О", students: students10O },
+      { day: "Пт", hour: 8, subject: "Фіз. культ.", className: "10-Д", students: students10D }
     ];
 
     const scheduleBody = document.getElementById("scheduleBody");
@@ -649,7 +1104,11 @@
     const lessonForm = document.getElementById("lessonForm");
     const deleteLessonBtn = document.getElementById("deleteLessonBtn");
     const addLessonBtn = document.getElementById("addLessonBtn");
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const printBtn = document.getElementById("printBtn");
     const resetBtn = document.getElementById("resetBtn");
+    const importFileInput = document.getElementById("importFileInput");
     const lessonDay = document.getElementById("lessonDay");
     const lessonHour = document.getElementById("lessonHour");
     const lessonSubject = document.getElementById("lessonSubject");
@@ -674,6 +1133,72 @@
       return JSON.parse(JSON.stringify(defaultSchedule));
     }
 
+    function normalizeStudent(rawStudent) {
+      if (typeof rawStudent === "string") {
+        const name = rawStudent.trim();
+        return name ? { name, hasRufie: false, healthGroup: "Основна" } : null;
+      }
+
+      if (!rawStudent || typeof rawStudent !== "object") {
+        return null;
+      }
+
+      const name = String(rawStudent.name || rawStudent.fullName || "").trim();
+      if (!name) {
+        return null;
+      }
+
+      const healthGroup = healthGroups.includes(rawStudent.healthGroup)
+        ? rawStudent.healthGroup
+        : "Основна";
+
+      return {
+        name,
+        hasRufie: Boolean(rawStudent.hasRufie),
+        healthGroup
+      };
+    }
+
+    function normalizeStudents(students) {
+      if (!Array.isArray(students)) {
+        return [];
+      }
+
+      return students
+        .map(normalizeStudent)
+        .filter(Boolean);
+    }
+
+    function studentsToTextarea(students) {
+      return normalizeStudents(students)
+        .map(student => student.name)
+        .join("\n");
+    }
+
+    function mergeStudentsWithExisting(inputNames, existingStudents = []) {
+      const existingMap = new Map(
+        normalizeStudents(existingStudents).map(student => [student.name.toLowerCase(), student])
+      );
+
+      return inputNames
+        .map(name => {
+          const normalizedName = name.trim();
+          if (!normalizedName) {
+            return null;
+          }
+
+          const existing = existingMap.get(normalizedName.toLowerCase());
+          return existing || { name: normalizedName, hasRufie: false, healthGroup: "Основна" };
+        })
+        .filter(Boolean);
+    }
+
+    function getGroupOptions(selectedGroup) {
+      return healthGroups
+        .map(group => `<option value="${group}"${group === selectedGroup ? " selected" : ""}>${group}</option>`)
+        .join("");
+    }
+
     function loadSchedule() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -684,8 +1209,9 @@
         if (!Array.isArray(parsed)) {
           return cloneDefaults();
         }
-        statusText.textContent = "Источник данных: localStorage, изменения сохранены в браузере.";
-        return parsed;
+        const normalized = parsed.map(normalizeLesson).filter(Boolean);
+        statusText.textContent = "Джерело даних: localStorage, зміни збережено у браузері.";
+        return normalized.length ? normalized : cloneDefaults();
       } catch (error) {
         console.error(error);
         return cloneDefaults();
@@ -694,7 +1220,7 @@
 
     function saveSchedule() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(scheduleData));
-      statusText.textContent = "Источник данных: localStorage, последнее изменение сохранено автоматически.";
+      statusText.textContent = "Джерело даних: localStorage, останню зміну збережено автоматично.";
     }
 
     function getLesson(day, hour) {
@@ -708,6 +1234,10 @@
     function getDayFull(shortDay) {
       const found = days.find(day => day.short === shortDay);
       return found ? found.full : shortDay;
+    }
+
+    function isOnlineLesson(lesson) {
+      return /-\s*Д$/i.test(String(lesson.className).trim());
     }
 
     function renderSchedule() {
@@ -732,22 +1262,28 @@
           const lesson = getLesson(day.short, hour);
 
           if (lesson) {
+            const formatLabel = isOnlineLesson(lesson)
+              ? '<span class="lesson-format">Онлайн</span>'
+              : "";
+
             td.innerHTML = `
               <div class="lesson-card">
                 <button class="lesson-main" type="button" data-action="view" data-day="${lesson.day}" data-hour="${lesson.hour}">
                   <span class="subject">${escapeHtml(lesson.subject)}</span>
-                  <span class="meta">${escapeHtml(lesson.className)} • ${getDayFull(lesson.day)}</span>
+                  <span class="class-badge">${escapeHtml(lesson.className)}</span>
+                  ${formatLabel}
+                  <span class="meta">${getDayFull(lesson.day)}</span>
                   <span class="meta">${lessonTimes[lesson.hour]}</span>
-                  <span class="students-preview">Ученики: ${lesson.students.length}</span>
+                  <span class="students-preview">Учнів: ${lesson.students.length}</span>
                 </button>
                 <div class="card-actions">
                   <button class="tiny-btn tiny-view" type="button" data-action="view" data-day="${lesson.day}" data-hour="${lesson.hour}">Список</button>
-                  <button class="tiny-btn tiny-edit" type="button" data-action="edit" data-day="${lesson.day}" data-hour="${lesson.hour}">Изменить</button>
+                  <button class="tiny-btn tiny-edit" type="button" data-action="edit" data-day="${lesson.day}" data-hour="${lesson.hour}">Змінити</button>
                 </div>
               </div>
             `;
           } else {
-            td.innerHTML = `<button class="empty-card" type="button" data-action="create" data-day="${day.short}" data-hour="${hour}">+ Добавить урок</button>`;
+            td.innerHTML = `<button class="empty-card" type="button" data-action="create" data-day="${day.short}" data-hour="${hour}">+ Додати урок</button>`;
           }
 
           row.appendChild(td);
@@ -764,10 +1300,27 @@
       }
       currentViewKey = { day, hour };
       viewTitle.textContent = `${lesson.subject} • ${lesson.className}`;
-      viewSubtitle.textContent = `${getDayFull(lesson.day)}, ${lessonTimes[lesson.hour]}`;
+      viewSubtitle.textContent = isOnlineLesson(lesson)
+        ? `${getDayFull(lesson.day)}, ${lessonTimes[lesson.hour]} • Онлайн-урок`
+        : `${getDayFull(lesson.day)}, ${lessonTimes[lesson.hour]}`;
       studentsList.innerHTML = lesson.students.length
-        ? lesson.students.map(student => `<li>${escapeHtml(student)}</li>`).join("")
-        : "<li>Список учеников пока пуст.</li>";
+        ? normalizeStudents(lesson.students).map((student, index) => `
+          <li>
+            <div class="student-row">
+              <span class="student-name">${escapeHtml(student.name)}</span>
+              <div class="student-controls">
+                <label class="student-check">
+                  <input type="checkbox" data-student-index="${index}" data-field="hasRufie"${student.hasRufie ? " checked" : ""} />
+                  Проба Руф’є
+                </label>
+                <select class="student-group" data-student-index="${index}" data-field="healthGroup">
+                  ${getGroupOptions(student.healthGroup)}
+                </select>
+              </div>
+            </div>
+          </li>
+        `).join("")
+        : "<li>Список учнів поки порожній.</li>";
       openOverlay(viewOverlay);
     }
 
@@ -779,7 +1332,7 @@
       lessonHour.value = String(hour || 1);
       lessonSubject.value = lesson ? lesson.subject : "";
       lessonClass.value = lesson ? lesson.className : "";
-      lessonStudents.value = lesson ? lesson.students.join("\n") : "";
+      lessonStudents.value = lesson ? studentsToTextarea(lesson.students) : "";
       deleteLessonBtn.classList.toggle("hidden", !lesson);
       openOverlay(editOverlay);
     }
@@ -839,7 +1392,7 @@
     function resetSchedule() {
       scheduleData = cloneDefaults();
       localStorage.removeItem(STORAGE_KEY);
-      statusText.textContent = "Источник данных: стартовый JSON в файле.";
+      statusText.textContent = "Джерело даних: стартовий JSON у файлі.";
       renderSchedule();
     }
 
@@ -850,6 +1403,105 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function normalizeLesson(rawLesson) {
+      if (!rawLesson || typeof rawLesson !== "object") {
+        return null;
+      }
+
+      const day = String(rawLesson.day || "").trim();
+      const hour = Number(rawLesson.hour);
+      const subject = String(rawLesson.subject || "").trim();
+      const className = String(rawLesson.className || "").trim();
+      const students = normalizeStudents(rawLesson.students);
+
+      const validDay = days.some(item => item.short === day);
+      const validHour = Number.isInteger(hour) && hour >= 1 && hour <= 8;
+
+      if (!validDay || !validHour || !subject || !className) {
+        return null;
+      }
+
+      return { day, hour, subject, className, students };
+    }
+
+    function updateStudentMeta(day, hour, studentIndex, field, value) {
+      const lesson = getLesson(day, hour);
+      if (!lesson) {
+        return;
+      }
+
+      const students = normalizeStudents(lesson.students);
+      const student = students[studentIndex];
+      if (!student) {
+        return;
+      }
+
+      if (field === "hasRufie") {
+        student.hasRufie = Boolean(value);
+      }
+
+      if (field === "healthGroup" && healthGroups.includes(value)) {
+        student.healthGroup = value;
+      }
+
+      lesson.students = students;
+      saveSchedule();
+    }
+
+    function sortSchedule(data) {
+      const dayOrder = Object.fromEntries(days.map((day, index) => [day.short, index]));
+      return [...data].sort((a, b) => {
+        if (dayOrder[a.day] !== dayOrder[b.day]) {
+          return dayOrder[a.day] - dayOrder[b.day];
+        }
+        return Number(a.hour) - Number(b.hour);
+      });
+    }
+
+    function exportSchedule() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        lessons: sortSchedule(scheduleData)
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "teacher-schedule.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      statusText.textContent = "Розклад експортовано в JSON.";
+    }
+
+    function importScheduleFromText(text) {
+      const parsed = JSON.parse(text);
+      const rawLessons = Array.isArray(parsed) ? parsed : parsed.lessons;
+
+      if (!Array.isArray(rawLessons)) {
+        throw new Error("JSON має містити масив уроків або поле lessons.");
+      }
+
+      const normalized = rawLessons
+        .map(normalizeLesson)
+        .filter(Boolean);
+
+      if (!normalized.length) {
+        throw new Error("Не знайдено жодного коректного уроку для імпорту.");
+      }
+
+      const uniqueMap = new Map();
+      normalized.forEach(lesson => {
+        uniqueMap.set(`${lesson.day}-${lesson.hour}`, lesson);
+      });
+
+      scheduleData = sortSchedule(Array.from(uniqueMap.values()));
+      saveSchedule();
+      renderSchedule();
+      statusText.textContent = `Імпортовано уроків: ${scheduleData.length}.`;
     }
 
     scheduleBody.addEventListener("click", event => {
@@ -866,14 +1518,34 @@
       }
     });
 
+    studentsList.addEventListener("change", event => {
+      const target = event.target;
+      const field = target.dataset.field;
+      const studentIndex = Number(target.dataset.studentIndex);
+
+      if (!currentViewKey || !field || Number.isNaN(studentIndex)) {
+        return;
+      }
+
+      if (field === "hasRufie") {
+        updateStudentMeta(currentViewKey.day, currentViewKey.hour, studentIndex, field, target.checked);
+      }
+
+      if (field === "healthGroup") {
+        updateStudentMeta(currentViewKey.day, currentViewKey.hour, studentIndex, field, target.value);
+      }
+    });
+
     lessonForm.addEventListener("submit", event => {
       event.preventDefault();
+      const existingLesson = currentEditKey ? getLesson(currentEditKey.day, currentEditKey.hour) : null;
+      const studentNames = parseStudents(lessonStudents.value);
       const payload = {
         day: lessonDay.value,
         hour: Number(lessonHour.value),
         subject: lessonSubject.value.trim(),
         className: lessonClass.value.trim(),
-        students: parseStudents(lessonStudents.value)
+        students: mergeStudentsWithExisting(studentNames, existingLesson ? existingLesson.students : [])
       };
 
       if (!payload.subject || !payload.className) {
@@ -897,7 +1569,27 @@
     deleteLessonBtn.addEventListener("click", deleteCurrentLesson);
 
     addLessonBtn.addEventListener("click", () => openEditModal("Пн", 1));
+    exportBtn.addEventListener("click", exportSchedule);
+    importBtn.addEventListener("click", () => importFileInput.click());
+    printBtn.addEventListener("click", () => window.print());
     resetBtn.addEventListener("click", resetSchedule);
+
+    importFileInput.addEventListener("change", async event => {
+      const [file] = event.target.files || [];
+      if (!file) {
+        return;
+      }
+
+      try {
+        const text = await file.text();
+        importScheduleFromText(text);
+      } catch (error) {
+        console.error(error);
+        statusText.textContent = `Помилка імпорту: ${error.message}`;
+      } finally {
+        importFileInput.value = "";
+      }
+    });
 
     document.querySelectorAll("[data-close]").forEach(button => {
       button.addEventListener("click", () => {
