@@ -818,18 +818,11 @@
       </div>
 
       <aside class="toolbar">
-        <p>
-          Дані зберігаються в <code>localStorage</code>. Після оновлення сторінки зміни залишаться. Якщо потрібно повернути стартовий набір, використайте скидання.
-        </p>
         <div class="toolbar-actions">
-          <button class="btn btn-primary" id="addLessonBtn">Додати урок</button>
-          <button class="btn btn-secondary" id="exportBtn">Експорт JSON</button>
-          <button class="btn btn-secondary" id="importBtn">Імпорт JSON</button>
           <button class="btn btn-secondary" id="printBtn">Друк A4</button>
-          <button class="btn btn-danger" id="resetBtn">Скинути дані</button>
+          <button class="btn btn-danger" id="resetBtn">Видалити журнал</button>
         </div>
-        <input class="hidden" id="importFileInput" type="file" accept="application/json,.json" />
-        <div class="status" id="statusText">Джерело даних: стартовий JSON у файлі.</div>
+        <div class="status" id="statusText"></div>
       </aside>
     </section>
 
@@ -1111,12 +1104,8 @@
     const editFromViewBtn = document.getElementById("editFromViewBtn");
     const lessonForm = document.getElementById("lessonForm");
     const deleteLessonBtn = document.getElementById("deleteLessonBtn");
-    const addLessonBtn = document.getElementById("addLessonBtn");
-    const exportBtn = document.getElementById("exportBtn");
-    const importBtn = document.getElementById("importBtn");
     const printBtn = document.getElementById("printBtn");
     const resetBtn = document.getElementById("resetBtn");
-    const importFileInput = document.getElementById("importFileInput");
     const lessonDay = document.getElementById("lessonDay");
     const lessonHour = document.getElementById("lessonHour");
     const lessonSubject = document.getElementById("lessonSubject");
@@ -1218,7 +1207,6 @@
           return cloneDefaults();
         }
         const normalized = parsed.map(normalizeLesson).filter(Boolean);
-        statusText.textContent = "Джерело даних: localStorage, зміни збережено у браузері.";
         return normalized.length ? normalized : cloneDefaults();
       } catch (error) {
         console.error(error);
@@ -1398,9 +1386,14 @@
     }
 
     function resetSchedule() {
-      scheduleData = cloneDefaults();
-      localStorage.removeItem(STORAGE_KEY);
-      statusText.textContent = "Джерело даних: стартовий JSON у файлі.";
+      const confirmed = window.confirm("Видалити весь журнал? Усі уроки та списки буде очищено.");
+      if (!confirmed) {
+        return;
+      }
+
+      scheduleData = [];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(scheduleData));
+      statusText.textContent = "Журнал очищено.";
       renderSchedule();
     }
 
@@ -1576,28 +1569,8 @@
 
     deleteLessonBtn.addEventListener("click", deleteCurrentLesson);
 
-    addLessonBtn.addEventListener("click", () => openEditModal("Пн", 1));
-    exportBtn.addEventListener("click", exportSchedule);
-    importBtn.addEventListener("click", () => importFileInput.click());
     printBtn.addEventListener("click", () => window.print());
     resetBtn.addEventListener("click", resetSchedule);
-
-    importFileInput.addEventListener("change", async event => {
-      const [file] = event.target.files || [];
-      if (!file) {
-        return;
-      }
-
-      try {
-        const text = await file.text();
-        importScheduleFromText(text);
-      } catch (error) {
-        console.error(error);
-        statusText.textContent = `Помилка імпорту: ${error.message}`;
-      } finally {
-        importFileInput.value = "";
-      }
-    });
 
     document.querySelectorAll("[data-close]").forEach(button => {
       button.addEventListener("click", () => {
