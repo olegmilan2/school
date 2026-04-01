@@ -177,6 +177,15 @@
       font-size: 13px;
     }
 
+    .timer {
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: #f9f4e7;
+      border: 1px dashed rgba(201, 191, 171, 0.7);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .board {
       background: var(--paper);
       border: 1px solid rgba(201, 191, 171, 0.95);
@@ -822,6 +831,7 @@
           <button class="btn btn-danger" id="resetBtn">Видалити журнал</button>
         </div>
         <div class="status" id="statusText"></div>
+        <div class="timer" id="timerText"></div>
       </aside>
     </section>
 
@@ -933,6 +943,30 @@
       7: "13:10 - 13:55",
       8: "14:00 - 14:45"
     };
+
+    function parseTimeToMinutes(value) {
+      const [hours, minutes] = value.split(":").map(Number);
+      if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+        return null;
+      }
+      return hours * 60 + minutes;
+    }
+
+    function getDailyLessonIntervals() {
+      return Object.keys(lessonTimes)
+        .map(key => {
+          const raw = lessonTimes[key];
+          const [startRaw, endRaw] = raw.split(" - ").map(part => part.trim());
+          const start = parseTimeToMinutes(startRaw);
+          const end = parseTimeToMinutes(endRaw);
+          if (start === null || end === null) {
+            return null;
+          }
+          return { start, end };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.start - b.start);
+    }
 
     const healthGroups = ["Основна", "Підготовча", "Спеціальна", "Відсутня"];
 
@@ -1095,6 +1129,16 @@
 
     const scheduleBody = document.getElementById("scheduleBody");
     const statusText = document.getElementById("statusText");
+    let timerText = document.getElementById("timerText");
+    if (!timerText) {
+      const toolbar = document.querySelector(".toolbar");
+      if (toolbar) {
+        timerText = document.createElement("div");
+        timerText.className = "timer";
+        timerText.id = "timerText";
+        toolbar.appendChild(timerText);
+      }
+    }
     const viewOverlay = document.getElementById("viewOverlay");
     const editOverlay = document.getElementById("editOverlay");
     const studentsList = document.getElementById("studentsList");
@@ -1426,6 +1470,58 @@
       return { day, hour, subject, className, students };
     }
 
+    function updateTimer() {
+      if (!timerText) {
+        return;
+      }
+
+      const intervals = getDailyLessonIntervals();
+      if (!intervals.length) {
+        timerText.textContent = "Поза розкладом.";
+        return;
+      }
+
+      const now = new Date();
+      const dayIndex = now.getDay();
+      if (dayIndex === 0 || dayIndex === 6) {
+        timerText.textContent = "Поза розкладом.";
+        return;
+      }
+      const nowMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+      const first = intervals[0];
+      const last = intervals[intervals.length - 1];
+
+      if (nowMinutes < first.start) {
+        const minutesLeft = Math.max(0, Math.ceil(first.start - nowMinutes));
+        timerText.textContent = `До початку уроку: ${minutesLeft} хв.`;
+        return;
+      }
+
+      if (nowMinutes >= last.end) {
+        timerText.textContent = "Поза розкладом.";
+        return;
+      }
+
+      for (let i = 0; i < intervals.length; i += 1) {
+        const current = intervals[i];
+        const next = intervals[i + 1];
+
+        if (nowMinutes >= current.start && nowMinutes < current.end) {
+          const minutesLeft = Math.max(0, Math.ceil(current.end - nowMinutes));
+          timerText.textContent = `До кінця уроку: ${minutesLeft} хв.`;
+          return;
+        }
+
+        if (next && nowMinutes >= current.end && nowMinutes < next.start) {
+          const minutesLeft = Math.max(0, Math.ceil(next.start - nowMinutes));
+          timerText.textContent = `До кінця перерви: ${minutesLeft} хв.`;
+          return;
+        }
+      }
+
+      timerText.textContent = "Поза розкладом.";
+    }
+
     function updateStudentMeta(day, hour, studentIndex, field, value) {
       const lesson = getLesson(day, hour);
       if (!lesson) {
@@ -1630,6 +1726,8 @@
 
     populateFormOptions();
     renderSchedule();
+    updateTimer();
+    setInterval(updateTimer, 30000);
   </script>
 </body>
 </html>
