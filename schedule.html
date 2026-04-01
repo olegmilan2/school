@@ -934,7 +934,7 @@
       8: "14:00 - 14:45"
     };
 
-    const healthGroups = ["Основна", "Підготовча", "Спеціальна"];
+    const healthGroups = ["Основна", "Підготовча", "Спеціальна", "Відсутня"];
 
     const students7A = [
       "Баранов Іван",
@@ -1439,7 +1439,9 @@
       }
 
       if (field === "hasRufie") {
-        student.hasRufie = Boolean(value);
+        const nextValue = Boolean(value);
+        student.hasRufie = nextValue;
+        propagateRufieStatus(lesson.className, student.name, nextValue);
       }
 
       if (field === "healthGroup" && healthGroups.includes(value)) {
@@ -1448,6 +1450,34 @@
 
       lesson.students = students;
       saveSchedule();
+    }
+
+    function propagateRufieStatus(className, studentName, nextValue) {
+      const normalizedClass = String(className || "").trim().toLowerCase();
+      const normalizedStudent = String(studentName || "").trim().toLowerCase();
+      if (!normalizedClass || !normalizedStudent) {
+        return;
+      }
+
+      scheduleData.forEach(item => {
+        if (String(item.className || "").trim().toLowerCase() !== normalizedClass) {
+          return;
+        }
+
+        const updatedStudents = normalizeStudents(item.students);
+        let changed = false;
+
+        updatedStudents.forEach(entry => {
+          if (String(entry.name || "").trim().toLowerCase() === normalizedStudent) {
+            entry.hasRufie = nextValue;
+            changed = true;
+          }
+        });
+
+        if (changed) {
+          item.students = updatedStudents;
+        }
+      });
     }
 
     function sortSchedule(data) {
