@@ -504,6 +504,37 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .time-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 88px 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f8f3e6;
+      border: 1px solid rgba(201, 191, 171, 0.7);
+    }
+
+    .time-row strong {
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .time-row input {
+      width: 100%;
+      border: 1px solid rgba(201, 191, 171, 0.95);
+      border-radius: 12px;
+      padding: 10px 11px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
     .field {
       display: grid;
       gap: 6px;
@@ -552,14 +583,12 @@
 
     @page {
       size: A4 landscape;
-      margin: 10mm;
+      margin: 5mm;
     }
 
     @media print {
       body {
-        background:
-          radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 34%),
-          linear-gradient(180deg, var(--bg-top) 0%, #f6f0df 30%, var(--bg-bottom) 100%);
+        background: #fff;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
@@ -579,24 +608,30 @@
 
       .hero {
         display: block;
-        margin-bottom: 10mm;
+        margin-bottom: 3mm;
       }
 
       .title-card {
-        background: rgba(255, 250, 242, 0.8);
-        border: 1px solid rgba(201, 191, 171, 0.9);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(10px);
+        padding: 8px 12px;
+        background: #fff;
+        border: 1px solid #c9bfab;
+        border-radius: 12px;
+        box-shadow: none;
+        backdrop-filter: none;
         break-inside: avoid;
       }
 
+      h1 {
+        font-size: 20px;
+        line-height: 1.05;
+      }
+
       .board {
-        box-shadow: var(--shadow);
-        border: 1px solid rgba(201, 191, 171, 0.95);
-        border-radius: 28px;
+        box-shadow: none;
+        border: 1px solid #c9bfab;
+        border-radius: 12px;
         overflow: visible;
-        background: var(--paper);
+        background: #fff;
         break-inside: avoid;
       }
 
@@ -614,14 +649,14 @@
       thead th,
       tbody th,
       tbody td {
-        border: 2px solid #4f4a43;
-        background: rgba(255, 252, 245, 0.92);
+        border: 1px solid #4f4a43;
+        background: #fff;
       }
 
       thead th {
-        padding: 10px 6px;
-        font-size: 14px;
-        background: linear-gradient(180deg, #f0eadb 0%, #ece4d1 100%);
+        padding: 6px 4px;
+        font-size: 10px;
+        background: #f0eadb;
       }
 
       .desktop-day {
@@ -633,30 +668,30 @@
       }
 
       .num-col {
-        width: 34px;
-        padding: 8px 4px;
-        font-size: 13px;
+        width: 28px;
+        padding: 4px 2px;
+        font-size: 9px;
       }
 
       .time-col {
         display: table-cell !important;
-        width: 92px;
-        padding: 8px 5px;
-        font-size: 11px;
+        width: 76px;
+        padding: 4px 3px;
+        font-size: 8px;
       }
 
       .lesson-cell {
-        padding: 3px;
+        padding: 2px;
       }
 
       .lesson-card {
-        min-height: 64px;
-        padding: 5px;
-        border: 1px solid rgba(47, 111, 177, 0.15);
-        border-radius: 10px;
-        box-shadow: 0 6px 16px rgba(31, 49, 78, 0.10);
-        background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
-        gap: 4px;
+        min-height: 0;
+        padding: 3px 4px;
+        border: 1px solid rgba(47, 111, 177, 0.12);
+        border-radius: 8px;
+        box-shadow: none;
+        background: #fff;
+        gap: 2px;
       }
 
       .lesson-main {
@@ -665,28 +700,36 @@
       }
 
       .subject {
-        font-size: 11px;
-        margin-bottom: 2px;
+        font-size: 8px;
+        margin-bottom: 1px;
       }
 
       .class-badge {
-        padding: 3px 6px;
-        border-radius: 6px;
-        font-size: 10px;
+        padding: 2px 5px;
+        border-radius: 5px;
+        font-size: 8px;
         box-shadow: none;
       }
 
       .meta,
       .students-preview {
-        font-size: 9px;
-        line-height: 1.15;
+        font-size: 7px;
+        line-height: 1.05;
       }
 
       .lesson-format {
-        padding: 2px 4px;
-        font-size: 8px;
+        padding: 1px 3px;
+        font-size: 7px;
         background: #e8f0fb;
         color: var(--accent-strong);
+      }
+
+      .lesson-card {
+        min-height: 20mm;
+      }
+
+      .lesson-card .meta:first-of-type {
+        display: none;
       }
     }
 
@@ -708,6 +751,10 @@
       }
 
       .form-grid.two {
+        grid-template-columns: 1fr;
+      }
+
+      .time-row {
         grid-template-columns: 1fr;
       }
 
@@ -828,6 +875,7 @@
       <aside class="toolbar">
         <div class="toolbar-actions">
           <button class="btn btn-secondary" id="printBtn">Друк A4</button>
+          <button class="btn btn-secondary" id="editTimesBtn">Часи уроків</button>
           <button class="btn btn-danger" id="resetBtn">Видалити журнал</button>
         </div>
         <div class="status" id="statusText"></div>
@@ -923,8 +971,33 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="timesOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="timesTitle">
+      <div class="modal-head">
+        <div>
+          <h2 class="modal-title" id="timesTitle">Часи уроків</h2>
+          <p class="modal-subtitle">Змініть початок і кінець кожного уроку. Зміни застосуються до розкладу і таймера.</p>
+        </div>
+        <button class="icon-btn" type="button" data-close="times">&times;</button>
+      </div>
+
+      <form id="timesForm">
+        <div class="time-list" id="timesList"></div>
+
+        <div class="modal-actions">
+          <div></div>
+          <div class="right-actions">
+            <button class="btn btn-secondary" type="button" data-close="times">Скасувати</button>
+            <button class="btn btn-primary" type="submit">Зберегти</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     const STORAGE_KEY = "teacherScheduleInteractive";
+    const TIMES_STORAGE_KEY = "teacherScheduleLessonTimes";
     const days = [
       { short: "Пн", full: "Понеділок" },
       { short: "Вт", full: "Вівторок" },
@@ -933,16 +1006,18 @@
       { short: "Пт", full: "П’ятниця" }
     ];
 
-    const lessonTimes = {
+    const DEFAULT_LESSON_TIMES = {
       1: "08:00 - 08:45",
-      2: "08:50 - 09:35",
-      3: "09:40 - 10:25",
-      4: "10:40 - 11:25",
-      5: "11:30 - 12:15",
-      6: "12:20 - 13:05",
-      7: "13:10 - 13:55",
-      8: "14:00 - 14:45"
+      2: "08:55 - 09:40",
+      3: "10:00 - 10:45",
+      4: "10:55 - 11:40",
+      5: "12:00 - 12:45",
+      6: "12:55 - 13:40",
+      7: "13:50 - 14:35",
+      8: "14:45 - 15:30"
     };
+
+    let lessonTimes = loadLessonTimes();
 
     function parseTimeToMinutes(value) {
       const [hours, minutes] = value.split(":").map(Number);
@@ -1031,6 +1106,12 @@
       "Чорна Соломія"
     ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
 
+    const students8B = [];
+
+    const students9A = [];
+
+    const students9D = [];
+
     const students9O = [
       "Беляєва Альона",
       "Бровко Ксенія",
@@ -1103,28 +1184,34 @@
       "Якушева Мирослава"
     ].map(name => ({ name, hasRufie: false, healthGroup: "Основна" }));
 
+    const students11O = [];
+
     const defaultSchedule = [
-      { day: "Пт", hour: 2, subject: "Фіз. культ.", className: "7-А", students: students7A },
-      { day: "Пт", hour: 3, subject: "Фіз. культ.", className: "7-Б", students: students7B },
-      { day: "Вт", hour: 4, subject: "Фіз. культ.", className: "10-О", students: students10O },
-      { day: "Чт", hour: 4, subject: "Фіз. культ.", className: "7-А", students: students7A },
-      { day: "Пт", hour: 4, subject: "Фіз. культ.", className: "9-О", students: students9O },
-      { day: "Вт", hour: 5, subject: "Фіз. культ.", className: "8-А", students: students8A },
-      { day: "Ср", hour: 5, subject: "Фіз. культ.", className: "10-Д", students: students10D },
-      { day: "Чт", hour: 5, subject: "Фіз. культ.", className: "7-Б", students: students7B },
-      { day: "Пт", hour: 5, subject: "Фіз. культ.", className: "8-А", students: students8A },
-      { day: "Вт", hour: 6, subject: "Фіз. культ.", className: "10-Д", students: students10D },
-      { day: "Ср", hour: 6, subject: "Фіз. культ.", className: "11-Д", students: students11D },
-      { day: "Чт", hour: 6, subject: "Фіз. культ.", className: "8-А", students: students8A },
-      { day: "Пт", hour: 6, subject: "Фіз. культ.", className: "11-Д", students: students11D },
-      { day: "Вт", hour: 7, subject: "Фіз. культ.", className: "11-Д", students: students11D },
-      { day: "Ср", hour: 7, subject: "Фіз. культ.", className: "9-О", students: students9O },
-      { day: "Чт", hour: 7, subject: "Фіз. культ.", className: "9-О", students: students9O },
-      { day: "Пт", hour: 7, subject: "Фіз. культ.", className: "10-О", students: students10O },
-      { day: "Вт", hour: 8, subject: "Фіз. культ.", className: "7-А", students: students7A },
-      { day: "Ср", hour: 8, subject: "Фіз. культ.", className: "7-Б", students: students7B },
-      { day: "Чт", hour: 8, subject: "Фіз. культ.", className: "10-О", students: students10O },
-      { day: "Пт", hour: 8, subject: "Фіз. культ.", className: "10-Д", students: students10D }
+      { day: "Вт", hour: 1, subject: "Фіз.культ", className: "8-А", students: students8A },
+      { day: "Вт", hour: 2, subject: "Захист України", className: "11-Д", students: students11D },
+      { day: "Вт", hour: 3, subject: "Захист України", className: "11-Д", students: students11D },
+      { day: "Вт", hour: 4, subject: "Фіз.культ", className: "7-А", students: students7A },
+      { day: "Вт", hour: 5, subject: "Фіз.культ", className: "9-А", students: students9A },
+      { day: "Вт", hour: 6, subject: "Фіз.культ", className: "9-Д", students: students9D },
+      { day: "Вт", hour: 7, subject: "Фіз.культ", className: "8-Б", students: students8B },
+      { day: "Вт", hour: 8, subject: "Фіз.культ", className: "11-О", students: students11O },
+      { day: "Ср", hour: 1, subject: "Фіз.культ", className: "8-Б", students: students8B },
+      { day: "Ср", hour: 2, subject: "Фіз.культ", className: "9-А", students: students9A },
+      { day: "Ср", hour: 3, subject: "Фіз.культ", className: "9-Д", students: students9D },
+      { day: "Ср", hour: 4, subject: "Захист України", className: "11-О (Група 2)", students: students11O },
+      { day: "Ср", hour: 5, subject: "Захист України", className: "11-О (Група 2)", students: students11O },
+      { day: "Ср", hour: 6, subject: "Фіз.культ", className: "7-А", students: students7A },
+      { day: "Ср", hour: 7, subject: "Фіз.культ", className: "8-А", students: students8A },
+      { day: "Ср", hour: 8, subject: "Фіз.культ", className: "11-Д", students: students11D },
+      { day: "Чт", hour: 3, subject: "Фіз.культ", className: "11-О", students: students11O },
+      { day: "Чт", hour: 5, subject: "Фіз.культ", className: "7-А", students: students7A },
+      { day: "Чт", hour: 6, subject: "Фіз.культ", className: "9-Д", students: students9D },
+      { day: "Чт", hour: 8, subject: "Фіз.культ", className: "11-Д", students: students11D },
+      { day: "Пт", hour: 2, subject: "Фіз.культ", className: "11-Д", students: students11D },
+      { day: "Пт", hour: 3, subject: "Фіз.культ", className: "11-О", students: students11O },
+      { day: "Пт", hour: 4, subject: "Фіз.культ", className: "8-А", students: students8A },
+      { day: "Пт", hour: 5, subject: "Фіз.культ", className: "9-А", students: students9A },
+      { day: "Пт", hour: 7, subject: "Фіз.культ", className: "8-Б", students: students8B }
     ];
 
     const scheduleBody = document.getElementById("scheduleBody");
@@ -1141,13 +1228,17 @@
     }
     const viewOverlay = document.getElementById("viewOverlay");
     const editOverlay = document.getElementById("editOverlay");
+    const timesOverlay = document.getElementById("timesOverlay");
     const studentsList = document.getElementById("studentsList");
     const viewTitle = document.getElementById("viewTitle");
     const viewSubtitle = document.getElementById("viewSubtitle");
     const editFromViewBtn = document.getElementById("editFromViewBtn");
     const lessonForm = document.getElementById("lessonForm");
+    const timesForm = document.getElementById("timesForm");
+    const timesList = document.getElementById("timesList");
     const deleteLessonBtn = document.getElementById("deleteLessonBtn");
     const printBtn = document.getElementById("printBtn");
+    const editTimesBtn = document.getElementById("editTimesBtn");
     const resetBtn = document.getElementById("resetBtn");
     const lessonDay = document.getElementById("lessonDay");
     const lessonHour = document.getElementById("lessonHour");
@@ -1169,8 +1260,64 @@
         .join("");
     }
 
+    function populateTimesEditor() {
+      timesList.innerHTML = Object.keys(DEFAULT_LESSON_TIMES)
+        .map(hour => {
+          const range = lessonTimes[hour] || DEFAULT_LESSON_TIMES[hour];
+          const [start, end] = range.split(" - ").map(part => part.trim());
+          return `
+            <div class="time-row">
+              <strong>${hour} урок</strong>
+              <input type="time" data-time-hour="${hour}" data-time-field="start" value="${start}" required />
+              <input type="time" data-time-hour="${hour}" data-time-field="end" value="${end}" required />
+            </div>
+          `;
+        })
+        .join("");
+    }
+
     function cloneDefaults() {
       return JSON.parse(JSON.stringify(defaultSchedule));
+    }
+
+    function cloneDefaultLessonTimes() {
+      return JSON.parse(JSON.stringify(DEFAULT_LESSON_TIMES));
+    }
+
+    function normalizeTimeRange(value, fallback) {
+      const raw = String(value || "").trim();
+      const match = raw.match(/^(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})$/);
+      if (!match) {
+        return fallback || null;
+      }
+      return `${match[1]} - ${match[2]}`;
+    }
+
+    function loadLessonTimes() {
+      try {
+        const raw = localStorage.getItem(TIMES_STORAGE_KEY);
+        if (!raw) {
+          return cloneDefaultLessonTimes();
+        }
+
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object") {
+          return cloneDefaultLessonTimes();
+        }
+
+        const normalized = {};
+        Object.keys(DEFAULT_LESSON_TIMES).forEach(hour => {
+          normalized[hour] = normalizeTimeRange(parsed[hour], DEFAULT_LESSON_TIMES[hour]) || DEFAULT_LESSON_TIMES[hour];
+        });
+        return normalized;
+      } catch (error) {
+        console.error(error);
+        return cloneDefaultLessonTimes();
+      }
+    }
+
+    function saveLessonTimes() {
+      localStorage.setItem(TIMES_STORAGE_KEY, JSON.stringify(lessonTimes));
     }
 
     function normalizeStudent(rawStudent) {
@@ -1374,6 +1521,11 @@
       lessonStudents.value = lesson ? studentsToTextarea(lesson.students) : "";
       deleteLessonBtn.classList.toggle("hidden", !lesson);
       openOverlay(editOverlay);
+    }
+
+    function openTimesModal() {
+      populateTimesEditor();
+      openOverlay(timesOverlay);
     }
 
     function closeOverlay(overlay) {
@@ -1644,6 +1796,42 @@
       }
     });
 
+    editTimesBtn.addEventListener("click", openTimesModal);
+
+    timesForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const nextTimes = {};
+      for (let hour = 1; hour <= 8; hour += 1) {
+        const startInput = timesForm.querySelector(`[data-time-hour="${hour}"][data-time-field="start"]`);
+        const endInput = timesForm.querySelector(`[data-time-hour="${hour}"][data-time-field="end"]`);
+        const start = startInput ? startInput.value : "";
+        const end = endInput ? endInput.value : "";
+
+        if (!start || !end) {
+          window.alert(`Заповніть час для ${hour} уроку.`);
+          return;
+        }
+
+        const startMinutes = parseTimeToMinutes(start);
+        const endMinutes = parseTimeToMinutes(end);
+        if (startMinutes === null || endMinutes === null || endMinutes <= startMinutes) {
+          window.alert(`Перевірте інтервал для ${hour} уроку.`);
+          return;
+        }
+
+        nextTimes[hour] = `${start} - ${end}`;
+      }
+
+      lessonTimes = nextTimes;
+      saveLessonTimes();
+      populateFormOptions();
+      renderSchedule();
+      updateTimer();
+      statusText.textContent = "Часи уроків оновлено.";
+      closeOverlay(timesOverlay);
+    });
+
     studentsList.addEventListener("change", event => {
       const target = event.target;
       const field = target.dataset.field;
@@ -1706,10 +1894,13 @@
         if (type === "edit") {
           closeOverlay(editOverlay);
         }
+        if (type === "times") {
+          closeOverlay(timesOverlay);
+        }
       });
     });
 
-    [viewOverlay, editOverlay].forEach(overlay => {
+    [viewOverlay, editOverlay, timesOverlay].forEach(overlay => {
       overlay.addEventListener("click", event => {
         if (event.target === overlay) {
           closeOverlay(overlay);
@@ -1721,6 +1912,7 @@
       if (event.key === "Escape") {
         closeOverlay(viewOverlay);
         closeOverlay(editOverlay);
+        closeOverlay(timesOverlay);
       }
     });
 
