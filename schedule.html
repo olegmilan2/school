@@ -998,6 +998,8 @@
   <script>
     const STORAGE_KEY = "teacherScheduleInteractive";
     const TIMES_STORAGE_KEY = "teacherScheduleLessonTimes";
+    const SCHEDULE_VERSION_KEY = "teacherScheduleVersion";
+    const CURRENT_SCHEDULE_VERSION = "2026-2027-photo-2026-09-17-new-photo-fix";
     const days = [
       { short: "Пн", full: "Понеділок" },
       { short: "Вт", full: "Вівторок" },
@@ -1192,9 +1194,9 @@
       { day: "Вт", hour: 3, subject: "Захист України", className: "11-Д", students: students11D },
       { day: "Вт", hour: 4, subject: "Фіз.культ", className: "7-А", students: students7A },
       { day: "Вт", hour: 5, subject: "Фіз.культ", className: "9-А", students: students9A },
-      { day: "Вт", hour: 6, subject: "Фіз.культ", className: "9-Д", students: students9D },
+      { day: "Вт", hour: 6, subject: "Фіз.культ", className: "11-О", students: students11O },
       { day: "Вт", hour: 7, subject: "Фіз.культ", className: "8-Б", students: students8B },
-      { day: "Вт", hour: 8, subject: "Фіз.культ", className: "11-О", students: students11O },
+      { day: "Вт", hour: 8, subject: "Фіз.культ", className: "9-Д", students: students9D },
       { day: "Ср", hour: 1, subject: "Фіз.культ", className: "8-Б", students: students8B },
       { day: "Ср", hour: 2, subject: "Фіз.культ", className: "9-А", students: students9A },
       { day: "Ср", hour: 3, subject: "Фіз.культ", className: "9-Д", students: students9D },
@@ -1203,15 +1205,16 @@
       { day: "Ср", hour: 6, subject: "Фіз.культ", className: "7-А", students: students7A },
       { day: "Ср", hour: 7, subject: "Фіз.культ", className: "8-А", students: students8A },
       { day: "Ср", hour: 8, subject: "Фіз.культ", className: "11-Д", students: students11D },
-      { day: "Чт", hour: 3, subject: "Фіз.культ", className: "11-О", students: students11O },
+      { day: "Вт", hour: 4, subject: "Захист України", className: "11-Д", students: students11D },
+      { day: "Чт", hour: 4, subject: "Фіз.культ", className: "11-О", students: students11O },
       { day: "Чт", hour: 5, subject: "Фіз.культ", className: "7-А", students: students7A },
       { day: "Чт", hour: 6, subject: "Фіз.культ", className: "9-Д", students: students9D },
-      { day: "Чт", hour: 8, subject: "Фіз.культ", className: "11-Д", students: students11D },
+      { day: "Чт", hour: 7, subject: "Фіз.культ", className: "11-Д", students: students11D },
+      { day: "Пт", hour: 1, subject: "Фіз.культ", className: "8-Б", students: students8B },
       { day: "Пт", hour: 2, subject: "Фіз.культ", className: "11-Д", students: students11D },
       { day: "Пт", hour: 3, subject: "Фіз.культ", className: "11-О", students: students11O },
       { day: "Пт", hour: 4, subject: "Фіз.культ", className: "8-А", students: students8A },
-      { day: "Пт", hour: 5, subject: "Фіз.культ", className: "9-А", students: students9A },
-      { day: "Пт", hour: 7, subject: "Фіз.культ", className: "8-Б", students: students8B }
+      { day: "Пт", hour: 7, subject: "Фіз.культ", className: "9-А", students: students9A }
     ];
 
     const scheduleBody = document.getElementById("scheduleBody");
@@ -1388,6 +1391,13 @@
 
     function loadSchedule() {
       try {
+        if (localStorage.getItem(SCHEDULE_VERSION_KEY) !== CURRENT_SCHEDULE_VERSION) {
+          const freshDefaults = cloneDefaults();
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(freshDefaults));
+          localStorage.setItem(SCHEDULE_VERSION_KEY, CURRENT_SCHEDULE_VERSION);
+          return freshDefaults;
+        }
+
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) {
           return cloneDefaults();
@@ -1406,6 +1416,7 @@
 
     function saveSchedule() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(scheduleData));
+      localStorage.setItem(SCHEDULE_VERSION_KEY, CURRENT_SCHEDULE_VERSION);
       statusText.textContent = "Джерело даних: localStorage, останню зміну збережено автоматично.";
     }
 
@@ -1588,6 +1599,7 @@
 
       scheduleData = [];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(scheduleData));
+      localStorage.setItem(SCHEDULE_VERSION_KEY, CURRENT_SCHEDULE_VERSION);
       statusText.textContent = "Журнал очищено.";
       renderSchedule();
     }
